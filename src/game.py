@@ -12,8 +12,15 @@ class Game:
         self.ai_color = player_index * -1
         self.finished = False
 
-    def play(self):
-        pass
+    def play(self, row: int, col: int):
+        position = (row, col)
+        
+        if self.board.set_value(position, self.now_move):
+            self.finished = self.board.is_terminal()
+            self.change_move_player()
+            return True
+
+        return False
 
     def aiplay(self):
         pass
