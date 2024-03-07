@@ -17,9 +17,12 @@ class Board:
         return self.values[position] if self.is_valid_position(position) \
                                                                     else None
 
-    def is_valid_position(self, position) -> bool:
+    def is_valid_position(self, position: tuple[int, int]) -> bool:
         i, j = position
         return 0 <= i < self.size and 0 <= j < self.size
     
-    def set_value(self, position, color) -> bool:
-        pass
+    def set_value(self, position: tuple[int, int], color: int) -> bool:
+        if self.value(position) == config.EMPTY:
+            self.values[position] = color
+            return True
+        return False
