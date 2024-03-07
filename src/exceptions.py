@@ -1,0 +1,2 @@
+class CellNotExists(Exception):
+    pass

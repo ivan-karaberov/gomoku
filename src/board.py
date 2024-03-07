@@ -37,6 +37,9 @@ class Board:
         return False
 
     def check_win(self) -> tuple[bool, int]:
+        if self.winner:
+            return True, self.winner
+
         pattern = np.full((config.LINE_FOR_WIN), 1)
 
         if self.check_pattern(pattern * config.WHITE):
