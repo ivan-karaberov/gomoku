@@ -13,11 +13,13 @@ class Board:
         self.last_move = None
         self.winner = None
     
-    def value(self, position) -> int | None:
-        pass
+    def value(self, position: tuple[int, int]) -> int | None:
+        return self.values[position] if self.is_valid_position(position) \
+                                                                    else None
 
     def is_valid_position(self, position) -> bool:
-        pass
+        i, j = position
+        return 0 <= i < self.size and 0 <= j < self.size
     
     def set_value(self, position, color) -> bool:
         pass
