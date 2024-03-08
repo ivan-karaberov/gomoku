@@ -80,3 +80,22 @@ class Board:
 
     def is_full(self):
         return not np.any(self.values == config.EMPTY)
+
+    def preferred_moves(self) -> np.ndarray[np.ndarray[int, int]]:
+        cell_status = self.expand_area(self.values != config.EMPTY)
+        return np.column_stack(np.where(cell_status == True))
+
+    def expand_area(self, cell_status: np.ndarray[np.ndarray[bool]]):
+        area_status = cell_status.copy()
+        for i in range(self.size):
+            for j in range(self.size):
+                if not cell_status[i, j]:
+                    continue
+                for direction in ((0, 1), (1, 0), (1, 1), (1, -1)):
+                    di, dj = direction
+                    for side in (-1, 1):
+                        ni = i + di * side
+                        nj = j + dj * side
+                        if self.is_valid_position((ni, nj)):
+                            area_status[ni, nj] = True      
+        return np.bitwise_xor(area_status, cell_status)
