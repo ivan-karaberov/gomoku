@@ -28,7 +28,7 @@ class Game:
         return False
 
     def aiplay(self) -> tuple[bool, int, int]:
-        row, col = self.ai.get_move()
+        row, col = self.ai.get_move(self.board)
         if self.play(row, col):
             return True, (row, col)
         return False, (0,0)
