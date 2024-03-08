@@ -1,11 +1,14 @@
-from board import Board
 import config
+from ai import AI
+from board import Board
+
 
 class Game:
     def __init__(self, size, player_index):
         self.size = size
         self.now_move = config.WHITE
         self.finished = False
+        self.ai = AI()
         self.restart(player_index)
 
     def restart(self, player_index=1) -> None:

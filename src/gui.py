@@ -45,8 +45,8 @@ class GUI:
                 self.canvas.bind("<Button-1>", self.click)
     
     def click(self, event):
-        self.set_player(event)
-        self.set_ai()
+        if self.set_player(event):
+            self.set_ai()
         if self.game.finished:
             self.show_menu()
 
@@ -55,6 +55,8 @@ class GUI:
         row, col = self.convert_cell_id(cell_id)
         if self.game.play(row, col):
             self.set_color(row, col, self.player_color)
+            return True
+        return False
 
     def set_ai(self):
         status, position = self.game.aiplay()
