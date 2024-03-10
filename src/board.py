@@ -4,7 +4,12 @@ import config
 
 
 class Board:
-    def __init__(self, size: int, values: np.ndarray[np.ndarray[int]] | None = None, color = config.WHITE):
+    def __init__(
+        self,
+        size: int,
+        values: np.ndarray[np.ndarray[int]] | None = None,
+        color: int = config.WHITE
+    ):
         if (np.all(values != None)):
             self.values = np.copy(values)
         else:
@@ -14,14 +19,15 @@ class Board:
         self.last_move = None
         self.winner = None
         self.color = color
-    
-    def set_value(self, position: tuple[int, int], color: int) -> bool:
+
+    def set_value(self, position: tuple[int, int]) -> bool:
         if self.value(position) == config.EMPTY:
-            self.values[position] = color
+            self.values[position] = self.color
+            self.color = -self.color
             self.last_move = position
             return True
         return False
-    
+
     def value(self, position: tuple[int, int]) -> int | None:
         return self.values[position] if self.is_valid_position(position) \
                                                                     else None
@@ -66,7 +72,8 @@ class Board:
             lines.append(self.values[i, :])
             lines.append(self.values[:, i])
 
-        for i in range(-self.size+config.LINE_FOR_WIN, self.size-(config.LINE_FOR_WIN-1)):
+        for i in range(-self.size+config.LINE_FOR_WIN,
+                       self.size-(config.LINE_FOR_WIN-1)):
             lines.append(np.diag(self.values, k=i))
             lines.append(np.diag(np.fliplr(self.values), k=i))
 
@@ -98,10 +105,10 @@ class Board:
                         ni = i + di * side
                         nj = j + dj * side
                         if self.is_valid_position((ni, nj)):
-                            area_status[ni, nj] = True      
+                            area_status[ni, nj] = True
         return np.bitwise_xor(area_status, cell_status)
 
     def next(self, position):
-        board = Board(self.size, self.values,-self.color)
-        board.set_value(tuple(position), board.color)
+        board = Board(self.size, self.values, self.color)
+        board.set_value(tuple(position))
         return board
