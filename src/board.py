@@ -4,7 +4,7 @@ import config
 
 
 class Board:
-    def __init__(self, size: int, values: np.ndarray[np.ndarray[int]] | None = None):
+    def __init__(self, size: int, values: np.ndarray[np.ndarray[int]] | None = None, color = config.WHITE):
         if (np.all(values != None)):
             self.values = np.copy(values)
         else:
@@ -13,6 +13,7 @@ class Board:
         self.size = size
         self.last_move = None
         self.winner = None
+        self.color = color
     
     def set_value(self, position: tuple[int, int], color: int) -> bool:
         if self.value(position) == config.EMPTY:
@@ -100,7 +101,7 @@ class Board:
                             area_status[ni, nj] = True      
         return np.bitwise_xor(area_status, cell_status)
 
-    def next(self, position, color):
-        board = Board(self.size, self.values)
-        board.set_value(tuple(position), color)
+    def next(self, position):
+        board = Board(self.size, self.values,-self.color)
+        board.set_value(tuple(position), board.color)
         return board
