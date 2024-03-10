@@ -99,3 +99,8 @@ class Board:
                         if self.is_valid_position((ni, nj)):
                             area_status[ni, nj] = True      
         return np.bitwise_xor(area_status, cell_status)
+
+    def next(self, position, color):
+        board = Board(self.size, self.values)
+        board.set_value(tuple(position), color)
+        return board
