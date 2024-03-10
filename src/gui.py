@@ -29,7 +29,6 @@ class GUI:
         self.draw_board()
         if self.game.ai_index == config.WHITE:
             self.set_ai()
-
         self.root.mainloop()
 
     def draw_board(self):
@@ -73,10 +72,14 @@ class GUI:
         if result: 
             self.game.restart()
             self.reload_cells()
+            if self.game.ai_index == config.WHITE:
+                self.set_ai()
         else: 
             exit()
 
     def reload_cells(self):
+        self.player_color = self.assign_color(self.game.player_index)
+        self.ai_color = self.assign_color(self.game.ai_index)        
         for cell_id in range((self.board_size**2)+1):
             self.canvas.itemconfig(
                 cell_id,
